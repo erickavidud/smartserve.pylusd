@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Smart Serve: Dispensing the Difference</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<div class="mouseSpot" id="mouseSpot" aria-hidden="true"></div>
+<div class="mouseAura" id="mouseAura" aria-hidden="true"></div>
+<div class="shell">
+<nav>
+  <div class="brand">
+    <div class="logo">S</div>
+    <div>Smart Serve <small>Dispensing the Difference</small></div>
+  </div>
+  <div class="tabs">
+    <button class="tab active" data-view="overview">District Impact</button>
+    <button class="tab" data-view="simulator">Impact Simulator</button>
+    <button class="tab" data-view="about">Created By</button>
+    <button class="tab loginNavBtn" id="loginNavBtn" type="button">Login</button>
+  </div>
+
+  <div class="loginDropdown" id="loginDropdown" aria-hidden="true">
+    <div id="loginSignedOut">
+      <div class="loginDropTitle">Admin Login</div>
+      <div class="loginDropCopy">Sign in to manage official schools.</div>
+      <label>Username</label>
+      <input id="adminUsernameModal" type="text" placeholder="Username" autocomplete="username">
+      <label>Password</label>
+      <input id="adminPasswordModal" type="password" placeholder="Password" autocomplete="current-password">
+      <div id="loginStatus" class="loginStatus" aria-live="polite"></div>
+      <button class="btn loginSubmit" id="adminLoginModal" type="button">Sign In</button>
+    </div>
+    <div id="loginSignedIn" style="display:none">
+      <div class="loginDropTitle">Admin signed in</div>
+      <div class="loginDropCopy">Official editing is enabled in Impact Simulator.</div>
+      <button class="btn ghost loginSubmit" id="adminLogoutModal" type="button">Log Out</button>
+    </div>
+  </div>
+
+</nav>
+
+<section class="view active" id="overview">
+  <section class="hero">
+    <div class="heroInner">
+      <div class="kicker">PYLUSD sustainability initiative</div>
+      <h1>Smart Serve:<br>Dispensing the Difference.</h1>
+      <p class="heroLead">Tracking how smarter cafeteria utensil systems reduce unnecessary single-use plastic packaging across Placentia-Yorba Linda Unified School District.</p>
+      <div class="pills">
+        <span class="pill"><span class="dot"></span> Valencia High School pilot live</span>
+        <span class="pill">8 dispensers installed</span>
+        <span class="pill">District-scale expansion model</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="sectionHeader">
+      <div class="kicker">Live district impact</div>
+      <h2>Environmental savings from implemented schools</h2>
+      <p>These totals update automatically as PYLUSD student days pass, based on each implemented school's tracking start date, cafeteria participation rate, and rollout coverage.</p>
+    </div>
+
+    <div class="impactHero">
+      <div class="card primaryStat">
+        <div class="kicker">Estimated plastic packaging avoided to date</div>
+        <div class="bigNum" id="cumulativeKg">0.0</div>
+        <div class="unit">kg of plastic packaging</div>
+        <p class="muted" id="massRangeNote">Automatically updates on PYLUSD student days after each school's tracking start date, using an estimated wrapper mass of 0.15 g per wrapper.</p>
+      </div>
+
+      <div class="supportGrid">
+        <div class="card metric">
+          <div class="label">Wrappers avoided / day</div>
+          <div class="num" id="dailyWrappers">0</div>
+          <div class="sub">Across implemented schools</div>
+        </div>
+        <div class="card metric">
+          <div class="label">Total wrappers avoided</div>
+          <div class="num" id="totalWrappers">0</div>
+          <div class="sub">Since each school's tracking start date</div>
+        </div>
+        <div class="card metric">
+          <div class="label">Dispensers installed</div>
+          <div class="num" id="installedDispensers">0</div>
+          <div class="sub">Current implemented total</div>
+        </div>
+        <div class="card metric">
+          <div class="label">Implemented schools</div>
+          <div class="num" id="implementedCount">0</div>
+          <div class="sub">Active Smart Serve locations</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="sectionHeader">
+      <div class="kicker">Cumulative impact</div>
+      <h2>What that looks like over time</h2>
+      <p>These supporting statistics translate the current implemented footprint into daily, monthly, and annual reductions.</p>
+    </div>
+    <div class="impactStrip">
+      <div class="card metric"><div class="label">Plastic / day</div><div class="num" id="kgDay">0.0 kg</div><div class="sub">Estimated</div></div>
+      <div class="card metric"><div class="label">Plastic / 20 school days</div><div class="num" id="kgMonth">0.0 kg</div><div class="sub">Approx. one school month</div></div>
+      <div class="card metric"><div class="label">Plastic / year</div><div class="num" id="kgYearEstimate">0.0 kg</div><div class="sub">Estimated current annual impact</div></div>
+
+      <div class="card metric"><div class="label">Wrapper mass assumption</div><div class="num">0.15 g</div><div class="sub">Midpoint of 0.1–0.2 g estimate</div></div>
+    </div>
+  </section>
+
+  
+
+  
+
+
+<section class="section reveal">
+    <div class="sectionHeader">
+      <div class="kicker">Current rollout</div>
+      <h2>Schools already using Smart Serve</h2>
+      <p>These are the locations currently counted in the district-wide impact totals above.</p>
+    </div>
+    <div class="schoolList" id="homeImplementedList"></div>
+  </section>
+
+<section class="section reveal">
+    <div class="card" style="padding:38px">
+      <div class="kicker">Why this matters</div>
+      <h2 style="font-size:38px;margin:8px 0 14px">A small systems change, measured at district scale.</h2>
+      <p class="heroLead" style="font-size:18px">Smart Serve focuses on source reduction: preventing unnecessary plastic packaging before it becomes waste. The dashboard gives district leaders a way to compare what is already being saved with what could be saved through further expansion.</p><p class="note" style="margin-top:16px">Live cumulative totals use the PYLUSD 2026–27 student calendar and exclude weekends, district holidays, Thanksgiving break, winter recess, and spring recess. Minimum days are still counted as student days.</p>
+    </div>
+  </section>
+</section>
+
+<section class="view" id="simulator">
+  <section class="section reveal" style="margin-top:38px">
+    <div class="sectionHeader">
+      <div class="kicker">Scenario planning</div>
+      <h2 style="font-size:50px">Impact Simulator</h2>
+      <p>Model a school, save it as potential, or add it directly to the implemented list. Implemented schools automatically feed the homepage metrics.</p>
+    </div>
+
+    <div class="card formCard">
+      <div class="formgrid">
+        <div><label>School name</label><input id="schoolName" placeholder="e.g., Kraemer Middle School"></div>
+        <div><label>Estimated enrollment</label><input id="enrollment" type="number" min="1" placeholder="e.g., 950"></div>
+        <div>
+          <label>School level</label>
+          <select id="schoolLevel">
+            <option value="high">High school</option>
+            <option value="middle">Middle school</option>
+            <option value="elementary">Elementary school</option>
+            <option value="custom">Custom baseline</option>
+          </select>
+        </div>
+        <div><label>Number of dispensers</label><input id="proposedDispensers" type="number" min="0" value="8"></div>
+        <div>
+  <label style="display:flex;align-items:center;gap:7px">
+    Cafeteria participation rate (%)
+    <span title="The estimated percentage of the school's total student population that gets cafeteria lunch and would normally receive an individually wrapped utensil." style="display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;border:1px solid #40634a;color:#bfe8ca;font-size:11px;cursor:help">i</span>
+  </label>
+  <input id="participation" type="number" min="0" max="100" step="0.1" value="26.6">
+</div>
+        <div><label>School days per year</label><input id="schoolDays" type="number" min="1" value="180"></div>
+        <div><label>Tracking start date</label><input id="startDate" type="date"></div>
+      </div>
+
+      <div style="margin-top:24px">
+        <label>Percent of individually wrapped utensils replaced</label>
+        <div class="rangeRow">
+          <input id="coverage" type="range" min="0" max="100" step="5" value="100">
+          <div class="rangeVal" id="coverageValue">100%</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn potentialBtn" id="addPotential">Add as Potential</button>
+        <button class="btn secondary" id="addImplemented" style="display:none">Add to Official Tracker</button>
+      </div>
+
+      <div class="results">
+        <div class="result"><span class="muted">Estimated wrapped utensils/day</span><strong id="simBaseline">—</strong></div>
+        <div class="result"><span class="muted">Wrappers avoided/day</span><strong id="simDaily">—</strong></div>
+        <div class="result"><span class="muted">Plastic avoided/year</span><strong id="simKg">—</strong></div>
+        <div class="result"><span class="muted">Rollout coverage</span><strong id="simCoverage">100%</strong></div>
+      </div>
+
+      <p class="note">The wrapped-utensil estimate is calculated from <strong>enrollment × cafeteria participation rate × rollout coverage</strong>. “Wrappers avoided per day” on the homepage is the sum of that adjusted daily value across every implemented school. For example, a school with 1,000 students, 30% cafeteria participation, and 50% rollout coverage contributes about 150 wrappers avoided per day.</p>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="sectionHeader">
+      <div class="kicker">Current implementation</div>
+      <h2>Implemented schools</h2>
+      <p>Official implemented schools are synced from the Smart Serve database. Admin controls appear here only after signing in from the Login button above.</p>
+    </div>
+    <div class="callout" id="syncStatus" style="margin-bottom:16px">Connecting to the Smart Serve database…</div>
+    <div id="implementedGrid" style="display:grid;gap:12px"></div>
+  </section>
+
+  <section class="section reveal">
+    <div class="sectionHeader">
+      <div class="kicker">Future expansion</div>
+      <h2>Potential schools</h2>
+      <p>Use this section to test future rollout scenarios locally without changing the official district tracker.</p>
+    </div>
+    <div class="card" id="potentialSummaryCard">
+      <div class="results" style="margin-top:0">
+        <div class="result"><span class="muted">Potential schools</span><strong id="potentialCount">0</strong></div>
+        <div class="result"><span class="muted">Potential wrappers avoided/day</span><strong id="potentialDaily">0</strong></div>
+        <div class="result"><span class="muted">Potential wrappers avoided/month</span><strong id="potentialMonthly">0</strong></div>
+        <div class="result"><span class="muted">Potential wrappers avoided/year</span><strong id="potentialAnnual">0</strong></div>
+        <div class="result"><span class="muted">Potential plastic/year</span><strong id="potentialKgYear">0.0 kg</strong></div>
+        <div class="result"><span class="muted">Potential dispensers</span><strong id="potentialDispensers">0</strong></div>
+      </div>
+      <div id="potentialGrid" style="display:grid;gap:12px;margin-top:18px"></div>
+    </div>
+  </section>
+</section>
+
+<section class="view" id="about">
+  <section class="section reveal" style="margin-top:40px">
+    <div class="about">
+      <div class="founderPortraitCard">
+        <img class="founderPortrait" src="assets/eric-chang.jpg" alt="Portrait of Eric Chang">
+      </div>
+      <div class="card aboutText">
+        <div class="kicker">Created by</div>
+        <h1>Eric Chang</h1>
+        <p class="heroLead">Eric Chang is a Valencia High School student passionate about environmental sustainability, youth-led change, and improving the systems students interact with every day.</p>
+        <p class="heroLead" style="font-size:17px">He created <strong>Smart Serve: Dispensing the Difference</strong> to reduce unnecessary single-use plastic waste on campus and make that impact measurable. The initiative is being developed in collaboration with teachers and staff at Valencia High School and PYLUSD Director of Nutritional Services Carlos Murta, with the goal of piloting utensil dispensers at Valencia and expanding successful implementation across the district.</p>
+        <ul class="list">
+          <li>Focus: practical environmental solutions that can scale across schools</li>
+          <li>Pilot site: Valencia High School</li>
+          <li>Initial deployment: approximately 8 utensil dispensers</li>
+          <li>Long-term goal: expand Smart Serve throughout PYLUSD</li>
+        </ul>
+        <div class="callout" style="margin-top:20px">Smart Serve was built around a simple idea: environmental impact becomes more powerful when people can see, measure, and scale it.</div>
+      </div>
+    </div>
+  </section>
+</section>
+</div>
+
+<footer class="footerGlow">
+  <div class="footerBrand">Smart Serve: Dispensing the Difference</div>
+  <div class="footerSub">Measuring small changes. Scaling district-wide impact.</div>
+  <div class="footerContact">Contact Founder · <a href="mailto:smartserveinitiative@gmail.com">smartserveinitiative@gmail.com</a></div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
